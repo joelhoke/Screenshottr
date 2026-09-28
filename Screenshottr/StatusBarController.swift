@@ -31,7 +31,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         configure(captureButton, image: icon, label: "Open Capture Toolbar", action: #selector(openCaptureToolbar))
 
         let triangle = NSImage(systemSymbolName: "arrowtriangle.down.fill", accessibilityDescription: nil)!
-        triangle.size = NSSize(width: 7, height: 4)
+        triangle.size = NSSize(width: 3.5, height: 2)
         triangle.isTemplate = true
         configure(menuButton, image: triangle, label: "Screenshottr Menu", action: #selector(openMenu))
         menuButton.setAccessibilityHelp("Launch at Login and Quit Screenshottr")
