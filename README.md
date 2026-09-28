@@ -29,7 +29,7 @@ This is a locally signed personal build. Developer ID distribution, notarization
 - **Camera button:** opens Apple’s capture toolbar immediately. Choose a screenshot or recording mode there, then capture.
 - **Dropdown arrow:** opens Screenshottr’s app menu with **Launch at Login** and **Quit Screenshottr**. If macOS requires login approval, **Allow in Login Items…** appears too.
 
-The two buttons share one menu bar item, so they stay together when moved. Each has its own click target, tooltip, and accessibility label. The camera image is 27 × 18 points; the subtle filled dropdown triangle is 1.75 × 1 points with a separate 18-point-wide click area.
+The two buttons share one menu bar item, so they stay together when moved. Each has its own click target, tooltip, and accessibility label. The camera image is 27 × 18 points; the subtle dropdown chevron is 3.5 × 2 points with a separate 18-point-wide click area.
 
 Use Apple’s **Options** for the save destination, timer, floating preview, and microphone when recording. Use Apple’s Stop control to finish recording, or Escape to cancel before capture. System audio is not added by Screenshottr.
 

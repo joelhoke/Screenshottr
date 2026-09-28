@@ -30,19 +30,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         icon.isTemplate = true
         configure(captureButton, image: icon, label: "Open Capture Toolbar", action: #selector(openCaptureToolbar))
 
-        // Draw at the exact native size instead of relying on SF Symbol sizing.
-        let triangle = NSImage(size: NSSize(width: 1.75, height: 1), flipped: false) { rect in
-            let path = NSBezierPath()
-            path.move(to: NSPoint(x: rect.minX, y: rect.maxY))
-            path.line(to: NSPoint(x: rect.maxX, y: rect.maxY))
-            path.line(to: NSPoint(x: rect.midX, y: rect.minY))
-            path.close()
-            NSColor.black.setFill()
-            path.fill()
-            return true
-        }
-        triangle.isTemplate = true
-        configure(menuButton, image: triangle, label: "Screenshottr Menu", action: #selector(openMenu))
+        let chevron = NSImage(systemSymbolName: "chevron.down", accessibilityDescription: nil)!
+        chevron.size = NSSize(width: 3.5, height: 2)
+        chevron.isTemplate = true
+        configure(menuButton, image: chevron, label: "Screenshottr Menu", action: #selector(openMenu))
         menuButton.setAccessibilityHelp("Launch at Login and Quit Screenshottr")
 
         menu.autoenablesItems = false
