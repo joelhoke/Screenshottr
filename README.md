@@ -65,6 +65,7 @@ For the system integration checks and observed results, see [VERIFICATION.md](VE
 - `LoginItemController.swift`: [SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice) registration and actual system status.
 - `Info.plist`: `LSUIElement` and app metadata.
 - `Assets.xcassets/MenuBarIcon.imageset/`: the supplied SVG, preserved as a vector template image. The menu bar renders it at 27 × 18 points and adapts its color to the system appearance.
+- `Assets.xcassets/AppIcon.appiconset/`: the supplied color artwork in macOS app icon sizes for Finder and Applications. The original image is kept in `Artwork/AppIcon.png`; the menu bar uses its separate monochrome asset.
 - `ScreenshottrTests/`: process lifecycle regression tests.
 
 The app intentionally runs without App Sandbox so it can invoke Apple’s system capture utility. It uses public Apple frameworks and the locally installed command-line tool; there is no custom capture engine, recording indicator, or editor.
