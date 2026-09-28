@@ -30,10 +30,10 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         icon.isTemplate = true
         configure(captureButton, image: icon, label: "Open Capture Toolbar", action: #selector(openCaptureToolbar))
 
-        let chevron = NSImage(systemSymbolName: "chevron.down", accessibilityDescription: nil)!
-        chevron.size = NSSize(width: 10, height: 6)
-        chevron.isTemplate = true
-        configure(menuButton, image: chevron, label: "Screenshottr Menu", action: #selector(openMenu))
+        let triangle = NSImage(systemSymbolName: "arrowtriangle.down.fill", accessibilityDescription: nil)!
+        triangle.size = NSSize(width: 7, height: 4)
+        triangle.isTemplate = true
+        configure(menuButton, image: triangle, label: "Screenshottr Menu", action: #selector(openMenu))
         menuButton.setAccessibilityHelp("Launch at Login and Quit Screenshottr")
 
         menu.autoenablesItems = false
