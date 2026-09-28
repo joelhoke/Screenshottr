@@ -1,95 +1,30 @@
 import AppKit
-import SwiftUI
 
 @main
-struct ScreenshottrApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
-    @StateObject private var capture = CaptureLauncher()
-    @StateObject private var loginItem = LoginItemController()
-
-    private static let menuBarIcon: NSImage = {
-        // MenuBarExtra bridges its label to an AppKit status-item image. Size
-        // that image directly; SwiftUI frame/resizable modifiers aren't enough.
-        let image = (NSImage(named: "MenuBarIcon")?.copy() as? NSImage)
-            ?? NSImage(systemSymbolName: "camera.viewfinder", accessibilityDescription: "Screenshottr")!
-        image.size = NSSize(width: 27, height: 18)
-        image.isTemplate = true
-        return image
-    }()
-
-    var body: some Scene {
-        MenuBarExtra {
-            CaptureMenu(capture: capture, loginItem: loginItem)
-        } label: {
-            Image(nsImage: Self.menuBarIcon)
-                .accessibilityLabel("Screenshottr")
+struct ScreenshottrApp {
+    @MainActor
+    static func main() {
+        let application = NSApplication.shared
+        let delegate = AppDelegate()
+        application.delegate = delegate
+        // NSApplication keeps a weak delegate reference.
+        withExtendedLifetime(delegate) {
+            application.run()
         }
-        .menuBarExtraStyle(.menu)
     }
 }
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    private var statusBarController: StatusBarController?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        let controller = StatusBarController()
+        controller.install()
+        statusBarController = controller
+    }
+
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false
-    }
-}
-
-private struct CaptureMenu: View {
-    @ObservedObject var capture: CaptureLauncher
-    @ObservedObject var loginItem: LoginItemController
-
-    var body: some View {
-        Button("Open Capture Toolbar…") { capture.launch(.toolbar) }
-            .disabled(capture.isActive)
-
-        Divider()
-
-        Button("Record Screen…") { capture.launch(.recording) }
-            .disabled(capture.isActive)
-        Button("Screenshot…") { capture.launch(.screenshot) }
-            .disabled(capture.isActive)
-        Button("Capture Selected Area…") { capture.launch(.selectedArea) }
-            .disabled(capture.isActive)
-
-        Divider()
-
-        Toggle("Launch at Login", isOn: Binding(
-            get: { loginItem.isEnabled },
-            set: { loginItem.setEnabled($0) }
-        ))
-        .disabled(loginItem.isUpdating)
-
-        if loginItem.needsApproval {
-            Button("Allow in Login Items…") { loginItem.openSettings() }
-        }
-
-        Divider()
-
-        Button("Quit Screenshottr") { NSApplication.shared.terminate(nil) }
-            .keyboardShortcut("q")
-            .onAppear {
-                loginItem.refresh()
-                capture.onFailure = { showAlert(title: "Capture Unavailable", message: $0) }
-                loginItem.onFailure = { showAlert(title: "Launch at Login", message: $0) }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: NSMenu.didBeginTrackingNotification)) { _ in
-                loginItem.refresh()
-            }
-            .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-                loginItem.refresh()
-            }
-    }
-
-    private func showAlert(title: String, message: String) {
-        // Menu-only apps have no window on which to attach a SwiftUI alert.
-        DispatchQueue.main.async {
-            NSApplication.shared.activate(ignoringOtherApps: true)
-            let alert = NSAlert()
-            alert.alertStyle = .warning
-            alert.messageText = title
-            alert.informativeText = message
-            alert.addButton(withTitle: "OK")
-            alert.runModal()
-        }
     }
 }

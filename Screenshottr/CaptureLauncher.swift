@@ -1,58 +1,41 @@
 import AppKit
 import Combine
 
-enum CaptureMode: CaseIterable {
-    case toolbar, recording, screenshot, selectedArea
-
-    var arguments: [String] {
-        // -p preserves the destination and other settings from Apple's Options menu.
-        // Use documented starting styles; all modes retain the full toolbar.
-        let baseArguments = ["-i", "-U", "-p", "-d"]
-        let style: String
-        switch self {
-        // No starting-style override: let Apple restore its current toolbar mode.
-        case .toolbar: return baseArguments
-        case .recording: style = "video"
-        case .screenshot: style = "window"
-        case .selectedArea: style = "selection"
-        }
-        return baseArguments + ["-J", style]
-    }
-}
-
 @MainActor
 final class CaptureLauncher: ObservableObject {
+    // Full toolbar, system preferences, and no starting-mode or destination override.
+    static let toolbarArguments = ["-i", "-U", "-p", "-d"]
+
     @Published private(set) var isActive = false
     var onFailure: ((String) -> Void)?
 
     private var process: Process?
     private let executableURL: URL
-    private let arguments: (CaptureMode) -> [String]
+    private let arguments: () -> [String]
 
     init(
         executableURL: URL = URL(fileURLWithPath: "/usr/sbin/screencapture"),
-        arguments: @escaping (CaptureMode) -> [String] = { $0.arguments }
+        arguments: @escaping () -> [String] = { CaptureLauncher.toolbarArguments }
     ) {
         self.executableURL = executableURL
         self.arguments = arguments
     }
 
-    func launch(_ mode: CaptureMode) {
+    func launch() {
         guard !isActive else { return }
-        // Reserve immediately, including the interval while the menu is closing.
+        // Reserve immediately so rapid clicks cannot start duplicate processes.
         isActive = true
         Task { @MainActor in
-            // MenuBarExtra's standard menu dismisses after its action returns.
-            // Yield, then allow the closing animation to finish before capture UI.
+            // Let the status button finish its mouse-up highlight before capture UI.
             try? await Task.sleep(nanoseconds: 200_000_000)
-            start(mode)
+            start()
         }
     }
 
-    private func start(_ mode: CaptureMode) {
+    private func start() {
         let capture = Process()
         capture.executableURL = executableURL
-        capture.arguments = arguments(mode)
+        capture.arguments = arguments()
         capture.standardOutput = FileHandle.nullDevice
         capture.standardError = FileHandle.nullDevice
         capture.terminationHandler = { [weak self] finished in
