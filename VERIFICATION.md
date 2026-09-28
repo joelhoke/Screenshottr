@@ -4,6 +4,7 @@ Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Checked September 28, 2026
 
 ## Automated and local checks
 
+- Toolbar/icon update: Release and Debug test builds succeeded; all four tests passed again, including the general toolbar’s lack of a starting-mode override. Loaded the compiled SVG asset through AppKit, confirmed its template flag, and visually inspected a rendered preview. Native automation still times out when targeting this menu-only app, so live menu/icon and toolbar interaction checks remain pending.
 - Debug app and test bundle compiled for arm64 and x86_64.
 - Release build succeeded. `lipo -archs` confirmed both arm64 and x86_64; `codesign --verify --strict` passed for the locally signed Release app.
 - `xcrun xctest build/Build/Products/Debug/ScreenshottrTests.xctest`: **4 tests passed, 0 failures**. Covers capture arguments, duplicate requests (including menu-dismissal delay), completion and relaunch, cancellation, and actionable launch failures.
@@ -20,7 +21,9 @@ Desktop automation repeatedly returned `timeoutReached` when inspecting the runn
 
 | Check | Procedure and expected result |
 | --- | --- |
-| Menu and Dock | Open the app; verify a small camera/viewfinder menu bar icon, all five actions, no Dock icon, and no main window. |
+| Menu and Dock | Open the app; verify the supplied camera and selection-outline menu bar icon, all six actions, no Dock icon, and no main window. |
+| General toolbar | Choose Open Capture Toolbar…; verify Apple’s full toolbar opens without forcing a screenshot or recording mode. |
+| Icon appearance | Verify the supplied icon is legible at menu bar size in light and dark appearance. |
 | Recording mode | Choose Record Screen…; verify Apple’s toolbar opens with Record Selected Portion active and Screenshottr’s menu closed. |
 | Screenshot mode | Choose Screenshot…; verify Capture Selected Window is active, and full-screen capture is available. |
 | Selected area | Choose Capture Selected Area…; verify Capture Selected Portion is active and the selection can be dragged/resized. |

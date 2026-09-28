@@ -4,7 +4,7 @@ A small, native menu bar launcher for Apple’s screenshot and screen recording 
 
 ## Build and run
 
-Open `Screenshottr.xcodeproj` in Xcode, select the **Screenshottr** scheme and **My Mac**, then Run. The camera/viewfinder icon appears in the menu bar. The project uses local ad hoc signing, so a paid developer account is not required for personal use on this Mac.
+Open `Screenshottr.xcodeproj` in Xcode, select the **Screenshottr** scheme and **My Mac**, then Run. The supplied camera and selection-outline icon appears in the menu bar. The project uses local ad hoc signing, so a paid developer account is not required for personal use on this Mac.
 
 Or build from Terminal with Xcode installed:
 
@@ -28,13 +28,14 @@ This is a locally signed personal build. Developer ID distribution, notarization
 
 | Menu action | Initial Apple toolbar mode |
 | --- | --- |
+| Open Capture Toolbar… | Apple’s toolbar without a starting-mode override |
 | Record Screen… | Record Selected Portion; choose Record Entire Screen in the toolbar if desired |
 | Screenshot… | Capture Selected Window; choose Capture Entire Screen or Capture Selected Portion in the toolbar |
 | Capture Selected Area… | Capture Selected Portion; drag or resize the area with Apple’s controls |
 
-All three actions expose Apple’s full toolbar. Use **Options** for the save destination, timer, floating preview, and microphone when recording. Use Apple’s menu bar Stop button to finish recording, or Escape to cancel before capture. System audio is not added by Screenshottr.
+All four actions expose Apple’s full toolbar. Use **Options** for the save destination, timer, floating preview, and microphone when recording. Use Apple’s menu bar Stop button to finish recording, or Escape to cancel before capture. System audio is not added by Screenshottr.
 
-Screenshottr passes `-i -U -p -d -J <style>` to `/usr/sbin/screencapture` without a filename. `-p` uses the system’s capture settings and destination; the app does not write screenshot preferences or override the microphone, delay, preview, or output location. Apple may remember changes you make in its toolbar, including the last selected area. Starting styles are the documented `video`, `window`, and `selection` values (`man screencapture`).
+Screenshottr invokes `/usr/sbin/screencapture` without a filename. Open Capture Toolbar… uses `-i -U -p -d`; the other capture actions add `-J <style>` to select a starting mode. `-p` uses the system’s capture settings and destination; the app does not write screenshot preferences or override the microphone, delay, preview, or output location. Apple may remember changes you make in its toolbar, including the last selected area. Starting styles are the documented `video`, `window`, and `selection` values (`man screencapture`).
 
 The menu closes before the capture tool launches. Capture actions are unavailable while the child process is active, including during recording. The UI remains responsive. Cancellation is silent; process launch failures offer the standard Shift–Command–5 shortcut as recovery, while `screencapture -d` handles capture errors graphically. Quitting Screenshottr does not forcibly terminate Apple’s capture tool or an ongoing recording; finish recordings using Apple’s Stop control.
 
@@ -63,6 +64,7 @@ For the system integration checks and observed results, see [VERIFICATION.md](VE
 - `CaptureLauncher.swift`: starting modes and asynchronous child process lifecycle.
 - `LoginItemController.swift`: [SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice) registration and actual system status.
 - `Info.plist`: `LSUIElement` and app metadata.
+- `Assets.xcassets/MenuBarIcon.imageset/`: the supplied SVG, preserved as a vector template image. The menu bar renders it at 27 × 18 points and adapts its color to the system appearance.
 - `ScreenshottrTests/`: process lifecycle regression tests.
 
 The app intentionally runs without App Sandbox so it can invoke Apple’s system capture utility. It uses public Apple frameworks and the locally installed command-line tool; there is no custom capture engine, recording indicator, or editor.

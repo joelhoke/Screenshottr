@@ -11,6 +11,7 @@ final class CaptureLauncherTests: XCTestCase {
         XCTAssertEqual(CaptureMode.recording.arguments.last, "video")
         XCTAssertEqual(CaptureMode.screenshot.arguments.last, "window")
         XCTAssertEqual(CaptureMode.selectedArea.arguments.last, "selection")
+        XCTAssertFalse(CaptureMode.toolbar.arguments.contains("-J"))
     }
 
     @MainActor

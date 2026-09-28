@@ -8,8 +8,15 @@ struct ScreenshottrApp: App {
     @StateObject private var loginItem = LoginItemController()
 
     var body: some Scene {
-        MenuBarExtra("Screenshottr", systemImage: "camera.viewfinder") {
+        MenuBarExtra {
             CaptureMenu(capture: capture, loginItem: loginItem)
+        } label: {
+            Image("MenuBarIcon")
+                .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 27, height: 18)
+                .accessibilityLabel("Screenshottr")
         }
         .menuBarExtraStyle(.menu)
     }
@@ -26,6 +33,11 @@ private struct CaptureMenu: View {
     @ObservedObject var loginItem: LoginItemController
 
     var body: some View {
+        Button("Open Capture Toolbar…") { capture.launch(.toolbar) }
+            .disabled(capture.isActive)
+
+        Divider()
+
         Button("Record Screen…") { capture.launch(.recording) }
             .disabled(capture.isActive)
         Button("Screenshot…") { capture.launch(.screenshot) }

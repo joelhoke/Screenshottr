@@ -2,18 +2,21 @@ import AppKit
 import Combine
 
 enum CaptureMode: CaseIterable {
-    case recording, screenshot, selectedArea
+    case toolbar, recording, screenshot, selectedArea
 
     var arguments: [String] {
         // -p preserves the destination and other settings from Apple's Options menu.
         // Use documented starting styles; all modes retain the full toolbar.
+        let baseArguments = ["-i", "-U", "-p", "-d"]
         let style: String
         switch self {
+        // No starting-style override: let Apple restore its current toolbar mode.
+        case .toolbar: return baseArguments
         case .recording: style = "video"
         case .screenshot: style = "window"
         case .selectedArea: style = "selection"
         }
-        return ["-i", "-U", "-p", "-d", "-J", style]
+        return baseArguments + ["-J", style]
     }
 }
 
