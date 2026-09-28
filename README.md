@@ -64,7 +64,7 @@ For the system integration checks and observed results, see [VERIFICATION.md](VE
 - `CaptureLauncher.swift`: starting modes and asynchronous child process lifecycle.
 - `LoginItemController.swift`: [SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice) registration and actual system status.
 - `Info.plist`: `LSUIElement` and app metadata.
-- `Assets.xcassets/MenuBarIcon.imageset/`: the supplied SVG, preserved as a vector template image. The menu bar renders it at 27 × 18 points and adapts its color to the system appearance.
+- `Assets.xcassets/MenuBarIcon.imageset/`: the supplied SVG, preserved as a vector template image. Both the SVG viewport and the native NSImage are sized to 27 × 18 points so MenuBarExtra cannot use the original 383 × 255 dimensions. Its color adapts to the system appearance.
 - `Assets.xcassets/AppIcon.appiconset/`: the supplied color artwork in macOS app icon sizes for Finder and Applications. The original image is kept in `Artwork/AppIcon.png`; the menu bar uses its separate monochrome asset.
 - `ScreenshottrTests/`: process lifecycle regression tests.
 

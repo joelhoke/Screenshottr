@@ -4,6 +4,7 @@ Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Checked September 28, 2026
 
 ## Automated and local checks
 
+- Oversized menu bar icon fix: Debug and Release builds succeeded. Loaded the compiled Release asset using AppKit and asserted its native size is exactly 27 × 18 points with template rendering enabled (previously 383 × 255). The status-item label now also receives an explicitly sized NSImage instead of relying on SwiftUI sizing modifiers. Release signature verification passed. The color app icon is unchanged.
 - App artwork update: Debug and Release builds succeeded with the supplied color image in all required macOS app icon sizes. Confirmed the built bundle’s `CFBundleIconFile` and `CFBundleIconName` point to `AppIcon`, visually inspected the compiled `.icns`, and verified the Release signature. The menu bar SVG and its rendering code are unchanged.
 - Toolbar/icon update: Release and Debug test builds succeeded; all four tests passed again, including the general toolbar’s lack of a starting-mode override. Loaded the compiled SVG asset through AppKit, confirmed its template flag, and visually inspected a rendered preview. Native automation still times out when targeting this menu-only app, so live menu/icon and toolbar interaction checks remain pending.
 - Debug app and test bundle compiled for arm64 and x86_64.

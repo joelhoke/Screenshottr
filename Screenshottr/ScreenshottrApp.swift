@@ -7,15 +7,21 @@ struct ScreenshottrApp: App {
     @StateObject private var capture = CaptureLauncher()
     @StateObject private var loginItem = LoginItemController()
 
+    private static let menuBarIcon: NSImage = {
+        // MenuBarExtra bridges its label to an AppKit status-item image. Size
+        // that image directly; SwiftUI frame/resizable modifiers aren't enough.
+        let image = (NSImage(named: "MenuBarIcon")?.copy() as? NSImage)
+            ?? NSImage(systemSymbolName: "camera.viewfinder", accessibilityDescription: "Screenshottr")!
+        image.size = NSSize(width: 27, height: 18)
+        image.isTemplate = true
+        return image
+    }()
+
     var body: some Scene {
         MenuBarExtra {
             CaptureMenu(capture: capture, loginItem: loginItem)
         } label: {
-            Image("MenuBarIcon")
-                .renderingMode(.template)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 27, height: 18)
+            Image(nsImage: Self.menuBarIcon)
                 .accessibilityLabel("Screenshottr")
         }
         .menuBarExtraStyle(.menu)
