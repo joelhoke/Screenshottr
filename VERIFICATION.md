@@ -4,7 +4,7 @@ Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Checked September 28, 2026
 
 ## Current implementation
 
-Screenshottr uses a native AppKit status item with two adjacent buttons: a 27 × 18-point camera image in a 39-point-wide button, and a 3.5 × 2-point filled dropdown triangle in an 18-point-wide button. The camera opens Apple’s full capture toolbar. The arrow opens Launch at Login and Quit Screenshottr, plus the approval shortcut when required. Both buttons stay together as one movable status item. The color app icon is unchanged.
+Screenshottr uses a native AppKit status item with two adjacent buttons: a 27 × 18-point camera image in a 39-point-wide button, and a 1.75 × 1-point filled dropdown triangle in an 18-point-wide button. The camera opens Apple’s full capture toolbar. The arrow opens Launch at Login and Quit Screenshottr, plus the approval shortcut when required. Both buttons stay together as one movable status item. The color app icon is unchanged.
 
 ## Automated checks
 
