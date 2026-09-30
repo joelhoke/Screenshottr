@@ -5,3 +5,4 @@ DerivedData/
 xcuserdata/
 .build/
 Signing.local.xcconfig
+dist/

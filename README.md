@@ -2,6 +2,12 @@
 
 A small, native menu bar launcher for Apple’s screenshot and screen recording toolbar. Requires macOS 13 or later. No Dock icon, main window, dependencies, network service, or additional global shortcuts.
 
+## Download
+
+Get the app from [GitHub Releases](https://github.com/joelhoke/Screenshottr/releases/latest). Download **Screenshottr-1.0.0-macOS.zip** from Assets, unzip it, and drag **Screenshottr.app** into **Applications**. The Source code downloads are for developers.
+
+The release is a universal app for Apple Silicon and Intel Macs, signed with Developer ID and notarized by Apple. Open the Applications copy, then click the camera in the menu bar. macOS may ask you to approve screen recording access; follow its permission and Quit & Reopen prompts. The small arrow opens Launch at Login and Quit.
+
 ## Build and run
 
 Open `Screenshottr.xcodeproj` in Xcode and configure the app target with your development team and an **Apple Development** signing certificate. Both Debug and Release use certificate signing so macOS can recognize the app across rebuilds.
@@ -26,7 +32,7 @@ open build/Build/Products/Release/Screenshottr.app
 
 Keep a single installed copy, and configure login launch from that copy. Launch at Login is off on a fresh install; the app never registers itself automatically. If macOS requires approval, **Allow in Login Items…** opens the appropriate System Settings page. The checkbox is checked only when macOS reports the service as enabled. Existing registration is respected across app launches.
 
-This is a development-signed personal build. Developer ID distribution, notarization, and App Store packaging are not configured.
+Local builds use Apple Development signing. Published downloads use Developer ID signing and Apple notarization. App Store distribution is not configured.
 
 ## Screen recording permission
 
@@ -79,6 +85,8 @@ xcrun xctest build/Build/Products/Debug/ScreenshottrTests.xctest
 ```
 
 For the system integration checks and observed results, see [VERIFICATION.md](VERIFICATION.md).
+
+For signing, notarization, packaging, and GitHub release instructions, see [RELEASING.md](RELEASING.md).
 
 ## Project map
 

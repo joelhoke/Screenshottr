@@ -1,6 +1,15 @@
 # Verification
 
-Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Last updated September 29, 2026.
+Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Last updated September 30, 2026.
+
+## Version 1.0.0 distribution (September 30)
+
+- Rebuilt the test bundle and ran all six tests: passed, zero failures.
+- Archived a universal Release app containing arm64 and x86_64 code, signed with Developer ID Application, hardened runtime, and a secure timestamp. The debugger entitlement is absent.
+- Uploaded the archive to Apple through Xcode's signed-in developer account and exported the notarized app.
+- The app's stapled ticket validates. Gatekeeper reports `accepted`, `source=Notarized Developer ID`.
+- Packaged the app into `Screenshottr-1.0.0-macOS.zip`; extracted it into a fresh directory and repeated strict signature, ticket, and Gatekeeper checks successfully. SHA-256 checksum accompanies the ZIP.
+- The existing Applications installation was left in place. Fresh-install permission prompts on a friend's Mac, Intel hardware, and macOS 13 remain manual checks; notarization does not verify capture behavior.
 
 ## Permission-loop fix (September 29)
 
@@ -9,7 +18,7 @@ Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Last updated September 29,
 - Debug and Release builds succeeded. Both passed strict code signature verification, and their certificate-based designated requirements are identical, with no code hash requirement.
 - Installed the signed Release app at `/Applications/Screenshottr.app`, stopped the old Debug copy, and launched the Applications copy.
 - Reset only `ScreenCapture` for `com.joelhoke.Screenshottr` using `tccutil`; the command reported success. No other app’s permissions were changed.
-- Prepared System Settings with the Applications copy selected. The user must complete approval. Successful capture and permission persistence after approval still need verification.
+- Prepared System Settings with the Applications copy selected. The user completed approval and confirmed the app was working as intended. Longer-term permission persistence remains a manual check.
 
 ## Current implementation
 
