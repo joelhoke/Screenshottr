@@ -64,13 +64,21 @@ mv "$staging_dir/$archive_name" "$archive"
     shasum -a 256 "$archive_name" > SHA256SUMS.txt
 )
 cat > "$output_dir/release-notes.md" <<NOTES
+<a href="https://github.com/joelhoke/Screenshottr/releases/download/v$version/$archive_name"><img src="https://raw.githubusercontent.com/joelhoke/Screenshottr/v$version/Screenshottr/Assets.xcassets/AppIcon.appiconset/AppIcon-256.png" alt="Download Screenshottr for Mac" width="112" height="112"></a>
+
+## [Download Screenshottr for Mac ↓](https://github.com/joelhoke/Screenshottr/releases/download/v$version/$archive_name)
+
+**macOS 13+ · Apple Silicon & Intel · Free**
+
+Download the ZIP, unzip it, and drag Screenshottr into Applications.
+
 Screenshottr $version — a lightweight Mac menu bar launcher for Apple’s screenshot and screen recording toolbar.
 
 **Signing status:** $signing_note
 
 ### Download and install
 
-1. Download **$archive_name** from Assets below. The automatically generated Source code downloads are for developers.
+1. Click **Download Screenshottr for Mac** above (or choose **$archive_name** from Assets). The automatically generated Source code downloads are for developers.
 2. Unzip it and drag **Screenshottr.app** into **Applications**.
 3. Open Screenshottr. Click the camera in your menu bar to open Apple’s capture toolbar; click the small dropdown to access Launch at Login and Quit.
 4. When prompted, allow Screenshottr in **System Settings → Privacy & Security → Screen & System Audio Recording**. Follow any Quit & Reopen prompt.

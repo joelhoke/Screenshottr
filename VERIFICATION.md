@@ -2,6 +2,13 @@
 
 Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Last updated September 30, 2026.
 
+## Version 1.0.1 distribution (September 30)
+
+- Updated all seven app icon raster sizes (16–1024 pixels) from the supplied image, preserving alpha. Inspected the compiled app icon; the menu bar asset and app behavior are unchanged.
+- Universal Release archive succeeded with version 1.0.1, build 2, and the same Developer ID identity.
+- Apple notarization succeeded. The export and the extracted distribution ZIP both pass strict signature validation, stapled-ticket validation, and Gatekeeper assessment as `Notarized Developer ID`.
+- Release notes and README now lead with a clickable app image and direct ZIP download link. No new behavior tests were needed for the asset/documentation change; the six tests passed for the preceding 1.0.0 release.
+
 ## Version 1.0.0 distribution (September 30)
 
 - Rebuilt the test bundle and ran all six tests: passed, zero failures.

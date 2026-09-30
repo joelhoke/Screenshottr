@@ -1,10 +1,14 @@
+<a href="https://github.com/joelhoke/Screenshottr/releases/download/v1.0.1/Screenshottr-1.0.1-macOS.zip"><img src="Screenshottr/Assets.xcassets/AppIcon.appiconset/AppIcon-256.png" alt="Download Screenshottr for Mac" width="112" height="112"></a>
+
 # Screenshottr
 
 A small, native menu bar launcher for Apple’s screenshot and screen recording toolbar. Requires macOS 13 or later. No Dock icon, main window, dependencies, network service, or additional global shortcuts.
 
-## Download
+## [Download Screenshottr for Mac ↓](https://github.com/joelhoke/Screenshottr/releases/download/v1.0.1/Screenshottr-1.0.1-macOS.zip)
 
-Get the app from [GitHub Releases](https://github.com/joelhoke/Screenshottr/releases/latest). Download **Screenshottr-1.0.0-macOS.zip** from Assets, unzip it, and drag **Screenshottr.app** into **Applications**. The Source code downloads are for developers.
+**macOS 13+ · Apple Silicon & Intel · Free**
+
+Click the download link above, unzip it, and drag **Screenshottr.app** into **Applications**. See [release notes and checksums](https://github.com/joelhoke/Screenshottr/releases/latest). The Source code downloads are for developers.
 
 The release is a universal app for Apple Silicon and Intel Macs, signed with Developer ID and notarized by Apple. Open the Applications copy, then click the camera in the menu bar. macOS may ask you to approve screen recording access; follow its permission and Quit & Reopen prompts. The small arrow opens Launch at Login and Quit.
 

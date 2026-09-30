@@ -49,7 +49,7 @@ Requires Xcode, a signed-in Apple Developer Program account, and a **Developer I
 
    The script validates the version, bundle identifier, menu-only setting, both architectures, signature, absence of debugger entitlement, notarization ticket, and Gatekeeper acceptance. It checks the extracted ZIP again before writing `dist/<version>/` with the app ZIP, SHA-256 checksum, and release notes. It does not publish anything.
 
-6. Review the release notes and verification record. Commit the release changes, tag that commit `v1.0.0`, and push the commit and tag. Create a GitHub draft with the app ZIP and `SHA256SUMS.txt` attached:
+6. Review the release notes and verification record, and update both README download links for the new version. Generated release notes start with a clickable app icon and a direct ZIP link; their image URL uses the release tag so the artwork stays with that version. Commit the release changes, tag that commit `v1.0.0`, and push the commit and tag. Create a GitHub draft with the app ZIP and `SHA256SUMS.txt` attached:
 
    ```sh
    gh release create v1.0.0 --verify-tag --draft \
