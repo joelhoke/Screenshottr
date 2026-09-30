@@ -44,10 +44,12 @@ Run the installed copy in Applications and approve **Screenshottr** in **System 
 
 Avoid ad hoc signing (`CODE_SIGN_IDENTITY=-`) for normal use. macOS can tie an ad hoc app’s permission to its exact code hash; after a rebuild, the checkbox may still look enabled while the new binary no longer matches the saved permission. A stable Apple Development signing identity fixes that underlying identity change. Keep using the same team, certificate identity, and bundle identifier across builds. [Apple’s explanation](https://developer.apple.com/forums/thread/819406)
 
-If upgrading from an older ad hoc build and the permission keeps looping:
+Switching from a local Apple Development build to a published Developer ID release also changes the signing requirement. An existing permission can still require the development certificate, even when both builds have the same team and bundle identifier. Use the published Developer ID builds consistently for the installed app; do not replace that copy with local development builds.
+
+If upgrading from an older ad hoc or Apple Development build and the permission keeps looping:
 
 1. Quit Screenshottr and finish any capture using Apple’s controls.
-2. Install the development-signed build in Applications.
+2. Install the current notarized release in Applications.
 3. Reset only Screenshottr’s old screen-recording entry:
 
    ```sh

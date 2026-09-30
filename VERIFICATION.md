@@ -4,6 +4,8 @@ Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Last updated September 30,
 
 ## Version 1.0.1 distribution (September 30)
 
+- Follow-up: the existing local Apple Development permission did not migrate when the Applications copy was replaced with the Developer ID release. TCC explicitly logged `Failed to match existing code requirement`, showing the saved development certificate requirement and the installed Developer ID requirement. Reset only Screenshottr's ScreenCapture entry and opened System Settings for the user to grant fresh access. The user completed reapproval and confirmed they were good to continue. Future installed updates should retain Developer ID signing; local development builds must not replace the user's approved release copy.
+
 - Updated all seven app icon raster sizes (16–1024 pixels) from the supplied image, preserving alpha. Inspected the compiled app icon; the menu bar asset and app behavior are unchanged.
 - Universal Release archive succeeded with version 1.0.1, build 2, and the same Developer ID identity.
 - Apple notarization succeeded. The export and the extracted distribution ZIP both pass strict signature validation, stapled-ticket validation, and Gatekeeper assessment as `Notarized Developer ID`.
