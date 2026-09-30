@@ -4,9 +4,13 @@ A small, native menu bar launcher for Apple’s screenshot and screen recording 
 
 ## Build and run
 
-Open `Screenshottr.xcodeproj` in Xcode, select the **Screenshottr** scheme and **My Mac**, then Run. The supplied camera icon and a small dropdown arrow appear together in the menu bar. The project uses local ad hoc signing, so a paid developer account is not required for personal use on this Mac.
+Open `Screenshottr.xcodeproj` in Xcode and configure the app target with your development team and an **Apple Development** signing certificate. Both Debug and Release use certificate signing so macOS can recognize the app across rebuilds.
 
-Or build from Terminal with Xcode installed:
+You can keep the team setting local to your checkout: copy `Signing.local.xcconfig.example` to `Signing.local.xcconfig` and replace `YOUR_TEAM_ID` with the team for your certificate. The local file is ignored by Git. You can also select the team directly in Xcode’s Signing & Capabilities editor.
+
+Select the **Screenshottr** scheme and **My Mac**, then Run. The supplied camera icon and a small dropdown arrow appear together in the menu bar.
+
+Or build from Terminal after configuring signing and installing the certificate in your keychain:
 
 ```sh
 xcodebuild -project Screenshottr.xcodeproj -scheme Screenshottr \
@@ -22,7 +26,27 @@ open build/Build/Products/Release/Screenshottr.app
 
 Keep a single installed copy, and configure login launch from that copy. Launch at Login is off on a fresh install; the app never registers itself automatically. If macOS requires approval, **Allow in Login Items…** opens the appropriate System Settings page. The checkbox is checked only when macOS reports the service as enabled. Existing registration is respected across app launches.
 
-This is a locally signed personal build. Developer ID distribution, notarization, and App Store packaging are not configured.
+This is a development-signed personal build. Developer ID distribution, notarization, and App Store packaging are not configured.
+
+## Screen recording permission
+
+Run the installed copy in Applications and approve **Screenshottr** in **System Settings → Privacy & Security → Screen & System Audio Recording**. Quit and reopen that copy if macOS asks.
+
+Avoid ad hoc signing (`CODE_SIGN_IDENTITY=-`) for normal use. macOS can tie an ad hoc app’s permission to its exact code hash; after a rebuild, the checkbox may still look enabled while the new binary no longer matches the saved permission. A stable Apple Development signing identity fixes that underlying identity change. Keep using the same team, certificate identity, and bundle identifier across builds. [Apple’s explanation](https://developer.apple.com/forums/thread/819406)
+
+If upgrading from an older ad hoc build and the permission keeps looping:
+
+1. Quit Screenshottr and finish any capture using Apple’s controls.
+2. Install the development-signed build in Applications.
+3. Reset only Screenshottr’s old screen-recording entry:
+
+   ```sh
+   tccutil reset ScreenCapture com.joelhoke.Screenshottr
+   ```
+
+4. Open `/Applications/Screenshottr.app`, click its camera button, and approve Screenshottr in Screen & System Audio Recording. If it is not listed, use the `+` button to add the Applications copy. Follow any macOS Quit & Reopen prompt.
+
+The reset revokes the stale entry; it does not grant screen access or change other apps’ permissions. Approval must be completed by the user. [Apple’s permission controls](https://support.apple.com/guide/mac-help/mchld6aa7d23/mac)
 
 ## Use
 
@@ -63,6 +87,7 @@ For the system integration checks and observed results, see [VERIFICATION.md](VE
 - `CaptureLauncher.swift`: Apple toolbar arguments and asynchronous child process lifecycle.
 - `LoginItemController.swift`: [SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice) registration and actual system status.
 - `Info.plist`: `LSUIElement` and app metadata.
+- `Signing.xcconfig`: loads the ignored local development-team configuration for both app build configurations.
 - `Assets.xcassets/MenuBarIcon.imageset/`: the supplied SVG, preserved as a vector template image. Both the SVG viewport and the native NSImage are sized to 27 × 18 points to keep the status item at the intended menu bar size. Its color adapts to the system appearance.
 - `Assets.xcassets/AppIcon.appiconset/`: the supplied color artwork in macOS app icon sizes for Finder and Applications. The original image is kept in `Artwork/AppIcon.png`; the menu bar uses its separate monochrome asset.
 - `ScreenshottrTests/`: process lifecycle regression tests.

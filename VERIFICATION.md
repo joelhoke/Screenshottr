@@ -1,6 +1,15 @@
 # Verification
 
-Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Checked September 28, 2026.
+Environment: macOS 26.5.1, Xcode 26.6, Apple Silicon. Last updated September 29, 2026.
+
+## Permission-loop fix (September 29)
+
+- Diagnosis: the running Debug app used an ad hoc signature. Its designated code hashes differed from the hashes attached to Screenshottr’s enabled permission in the macOS privacy log.
+- Changed both app configurations to Apple Development signing and added a shared configuration that loads a Git-ignored local team setting. Test bundles retain ad hoc signing; they do not capture the screen.
+- Debug and Release builds succeeded. Both passed strict code signature verification, and their certificate-based designated requirements are identical, with no code hash requirement.
+- Installed the signed Release app at `/Applications/Screenshottr.app`, stopped the old Debug copy, and launched the Applications copy.
+- Reset only `ScreenCapture` for `com.joelhoke.Screenshottr` using `tccutil`; the command reported success. No other app’s permissions were changed.
+- Prepared System Settings with the Applications copy selected. The user must complete approval. Successful capture and permission persistence after approval still need verification.
 
 ## Current implementation
 

@@ -1,0 +1,3 @@
+// Keep your local signing team across Debug and Release builds.
+// See Signing.local.xcconfig.example and README.md.
+#include? "Signing.local.xcconfig"
